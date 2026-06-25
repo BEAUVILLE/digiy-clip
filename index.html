@@ -53,7 +53,7 @@
 
   #s3{background:radial-gradient(circle at 30% 50%, #163a27 0%, var(--noir) 75%);flex-direction:row;gap:6%}
   #s3 .qrwrap{position:relative;flex:0 0 auto}
-  #s3 .qr{width:clamp(110px,20vw,180px);height:clamp(110px,20vw,180px);background:var(--blanc);border-radius:12px;padding:10px;opacity:0}
+  #s3 .qr{width:clamp(140px,24vw,200px);height:clamp(140px,24vw,200px);background:var(--blanc);border-radius:12px;padding:10px;opacity:0}
   .active#s3 .qr{animation:pop .5s .2s both}
   #s3 .beam{position:absolute;left:6px;right:6px;height:4px;background:var(--or);border-radius:4px;box-shadow:0 0 18px 4px var(--or-clair);opacity:0;top:10px}
   .active#s3 .beam{animation:scan 1.4s .6s ease-in-out both}
@@ -100,10 +100,19 @@
   .active#s6 .slogan{animation:fadeUp .5s .8s both}
   #s6 .sub{color:#d8f0e2;font-size:clamp(11px,1.9vw,16px);margin-top:8px;opacity:0;letter-spacing:.06em}
   .active#s6 .sub{animation:fadeUp .5s 1.2s both}
-  #s6 .qrmini{width:clamp(70px,12vw,104px);height:clamp(70px,12vw,104px);background:#fff;border-radius:10px;padding:7px;margin-top:18px;opacity:0}
+  #s6 .qrmini{width:clamp(96px,16vw,128px);height:clamp(96px,16vw,128px);background:#fff;border-radius:10px;padding:7px;margin-top:16px;opacity:0}
   .active#s6 .qrmini{animation:pop .5s 1.5s both}
 
   .qrsvg{width:100%;height:100%;display:block}
+  .qrlink{display:block;text-decoration:none;cursor:pointer;position:relative;z-index:55;transition:transform .2s ease}
+  .qrlink:hover{transform:scale(1.04)}
+  .qrlink:hover .qr,.qrlink:hover .qrmini{box-shadow:0 0 0 3px var(--or),0 10px 30px rgba(0,0,0,.4)}
+  .qrcta{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);white-space:nowrap;
+    font-size:clamp(15px,2.6vw,20px);font-weight:800;letter-spacing:.05em;color:var(--or-clair);
+    display:flex;align-items:center;gap:7px;animation:ctaPulse 1.6s ease-in-out infinite}
+  .qrcta::before{content:"👆";font-size:1.15em}
+  .qrcta.sig{position:static;transform:none;margin-top:10px;color:#fff;font-size:clamp(16px,3vw,22px)}
+  @keyframes ctaPulse{0%,100%{opacity:.78}50%{opacity:1}}
 
   .gate{position:absolute;inset:0;z-index:80;background:radial-gradient(circle at 50% 45%, #14402a 0%, #06120c 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:pointer;transition:opacity .5s ease}
   .gate.hidden{opacity:0;pointer-events:none}
@@ -121,6 +130,22 @@
   .replay{background:var(--or);color:#1a1a1a}
   .hint{color:#7d8a82;font-size:12px;text-align:center}
   .sound{color:var(--or-clair);font-size:12px;display:flex;align-items:center;gap:5px}
+
+  /* === TÉLÉPHONE : tout plus gros, QR qui crève l'écran === */
+  @media (max-width:600px){
+    #s3{flex-direction:column;gap:18px}
+    #s3 .qr{width:min(62vw,260px);height:min(62vw,260px);padding:12px;border-radius:14px}
+    #s3 .fiche{max-width:82%;min-width:0;padding:16px 20px}
+    #s3 .fiche .nom{font-size:22px}
+    #s3 .fiche .metier{font-size:15px}
+    #s3 .fiche .cta{font-size:15px}
+    #s3 .legende{font-size:16px;bottom:4%}
+    .qrcta{font-size:21px;gap:8px;top:calc(100% + 14px)}
+    .qrcta.sig{font-size:20px;margin-top:12px}
+    #s6 .qrmini{width:min(40vw,170px);height:min(40vw,170px)}
+    #s6 .logo{font-size:46px}
+    #s6 .slogan{font-size:20px}
+  }
 
   @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -148,7 +173,7 @@
     </div>
 
     <div class="scene" id="s3">
-      <div class="qrwrap"><div class="qr"><div class="qrsvg" data-qr></div></div><div class="beam"></div></div>
+      <div class="qrwrap"><a class="qrlink" href="https://digiylyfe.com" target="_blank" rel="noopener"><div class="qr"><div class="qrsvg" data-qr></div></div></a><div class="qrcta">Scanne ou clique</div><div class="beam"></div></div>
       <div class="fiche"><div class="nom">Ndiaye Auto</div><div class="metier">DIGIY DRIVER &middot; Saly</div><div class="cta">&#128222; Contact direct</div></div>
       <div class="legende">Une fiche claire &middot; Un QR &middot; Un contact direct</div>
     </div>
@@ -176,7 +201,8 @@
       <div class="logo">DIGIYLYFE</div>
       <div class="slogan">Le poumon num&eacute;rique du terrain</div>
       <div class="sub">De Saly &agrave; Sarlat &middot; Le business local reprend la main</div>
-      <div class="qrmini"><div class="qrsvg" data-qr></div></div>
+      <a class="qrlink" href="https://digiylyfe.com" target="_blank" rel="noopener"><div class="qrmini"><div class="qrsvg" data-qr></div></div></a>
+      <div class="qrcta sig">Scanne ou clique &middot; digiylyfe.com</div>
     </div>
 
     <div class="vignette"></div>
