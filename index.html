@@ -3,18 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIGIYLYFE · Clip terrain (20s) — son embarqué</title>
-<meta name="description" content="De Saly à Sarlat, le business local reprend la main. 0% commission, paiement direct au pro, contact direct.">
-<!-- Aperçu riche au partage (WhatsApp, Facebook, etc.) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="DIGIYLYFE — Le poumon numérique du terrain">
-<meta property="og:description" content="De Saly à Sarlat, le business local reprend la main. 0% commission, paiement direct au pro.">
-<meta property="og:url" content="https://digiylyfe.com">
-<meta property="og:image" content="https://digiylyfe.com/qr-digiylyfe.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DIGIYLYFE — Le poumon numérique du terrain">
-<meta name="twitter:description" content="De Saly à Sarlat, le business local reprend la main.">
-<meta name="twitter:image" content="https://digiylyfe.com/qr-digiylyfe.png">
+<title>DIGIYLYFE · Clip terrain (20s) — MP3 externe</title>
 <style>
   :root{
     --vert:#1A5C38; --vert-clair:#13824d;
@@ -64,7 +53,7 @@
 
   #s3{background:radial-gradient(circle at 30% 50%, #163a27 0%, var(--noir) 75%);flex-direction:row;gap:6%}
   #s3 .qrwrap{position:relative;flex:0 0 auto}
-  #s3 .qr{width:clamp(140px,24vw,200px);height:clamp(140px,24vw,200px);background:var(--blanc);border-radius:12px;padding:10px;opacity:0}
+  #s3 .qr{width:clamp(110px,20vw,180px);height:clamp(110px,20vw,180px);background:var(--blanc);border-radius:12px;padding:10px;opacity:0}
   .active#s3 .qr{animation:pop .5s .2s both}
   #s3 .beam{position:absolute;left:6px;right:6px;height:4px;background:var(--or);border-radius:4px;box-shadow:0 0 18px 4px var(--or-clair);opacity:0;top:10px}
   .active#s3 .beam{animation:scan 1.4s .6s ease-in-out both}
@@ -111,19 +100,10 @@
   .active#s6 .slogan{animation:fadeUp .5s .8s both}
   #s6 .sub{color:#d8f0e2;font-size:clamp(11px,1.9vw,16px);margin-top:8px;opacity:0;letter-spacing:.06em}
   .active#s6 .sub{animation:fadeUp .5s 1.2s both}
-  #s6 .qrmini{width:clamp(96px,16vw,128px);height:clamp(96px,16vw,128px);background:#fff;border-radius:10px;padding:7px;margin-top:16px;opacity:0}
+  #s6 .qrmini{width:clamp(70px,12vw,104px);height:clamp(70px,12vw,104px);background:#fff;border-radius:10px;padding:7px;margin-top:18px;opacity:0}
   .active#s6 .qrmini{animation:pop .5s 1.5s both}
 
   .qrsvg{width:100%;height:100%;display:block}
-  .qrlink{display:block;text-decoration:none;cursor:pointer;position:relative;z-index:55;transition:transform .2s ease}
-  .qrlink:hover{transform:scale(1.04)}
-  .qrlink:hover .qr,.qrlink:hover .qrmini{box-shadow:0 0 0 3px var(--or),0 10px 30px rgba(0,0,0,.4)}
-  .qrcta{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);white-space:nowrap;
-    font-size:clamp(15px,2.6vw,20px);font-weight:800;letter-spacing:.05em;color:var(--or-clair);
-    display:flex;align-items:center;gap:7px;animation:ctaPulse 1.6s ease-in-out infinite}
-  .qrcta::before{content:"👆";font-size:1.15em}
-  .qrcta.sig{position:static;transform:none;margin-top:10px;color:#fff;font-size:clamp(16px,3vw,22px)}
-  @keyframes ctaPulse{0%,100%{opacity:.78}50%{opacity:1}}
 
   .gate{position:absolute;inset:0;z-index:80;background:radial-gradient(circle at 50% 45%, #14402a 0%, #06120c 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:pointer;transition:opacity .5s ease}
   .gate.hidden{opacity:0;pointer-events:none}
@@ -139,29 +119,8 @@
   button{cursor:pointer;border:none;font-weight:700;font-family:inherit;border-radius:9px;padding:10px 20px;font-size:14px;transition:transform .12s}
   button:active{transform:scale(.95)}
   .replay{background:var(--or);color:#1a1a1a}
-  .share{background:var(--vert-clair);color:#fff}
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--vert);color:#fff;
-    font-weight:700;font-size:14px;padding:12px 22px;border-radius:50px;box-shadow:0 10px 30px rgba(0,0,0,.4);
-    opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;z-index:200}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .hint{color:#7d8a82;font-size:12px;text-align:center}
   .sound{color:var(--or-clair);font-size:12px;display:flex;align-items:center;gap:5px}
-
-  /* === TÉLÉPHONE : tout plus gros, QR qui crève l'écran === */
-  @media (max-width:600px){
-    #s3{flex-direction:column;gap:18px}
-    #s3 .qr{width:min(62vw,260px);height:min(62vw,260px);padding:12px;border-radius:14px}
-    #s3 .fiche{max-width:82%;min-width:0;padding:16px 20px}
-    #s3 .fiche .nom{font-size:22px}
-    #s3 .fiche .metier{font-size:15px}
-    #s3 .fiche .cta{font-size:15px}
-    #s3 .legende{font-size:16px;bottom:4%}
-    .qrcta{font-size:21px;gap:8px;top:calc(100% + 14px)}
-    .qrcta.sig{font-size:20px;margin-top:12px}
-    #s6 .qrmini{width:min(40vw,170px);height:min(40vw,170px)}
-    #s6 .logo{font-size:46px}
-    #s6 .slogan{font-size:20px}
-  }
 
   @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -189,7 +148,7 @@
     </div>
 
     <div class="scene" id="s3">
-      <div class="qrwrap"><a class="qrlink" href="https://digiylyfe.com" target="_blank" rel="noopener"><div class="qr"><div class="qrsvg" data-qr></div></div></a><div class="qrcta">Scanne ou clique</div><div class="beam"></div></div>
+      <div class="qrwrap"><div class="qr"><div class="qrsvg" data-qr></div></div><div class="beam"></div></div>
       <div class="fiche"><div class="nom">Ndiaye Auto</div><div class="metier">DIGIY DRIVER &middot; Saly</div><div class="cta">&#128222; Contact direct</div></div>
       <div class="legende">Une fiche claire &middot; Un QR &middot; Un contact direct</div>
     </div>
@@ -217,8 +176,7 @@
       <div class="logo">DIGIYLYFE</div>
       <div class="slogan">Le poumon num&eacute;rique du terrain</div>
       <div class="sub">De Saly &agrave; Sarlat &middot; Le business local reprend la main</div>
-      <a class="qrlink" href="https://digiylyfe.com" target="_blank" rel="noopener"><div class="qrmini"><div class="qrsvg" data-qr></div></div></a>
-      <div class="qrcta sig">Scanne ou clique &middot; digiylyfe.com</div>
+      <div class="qrmini"><div class="qrsvg" data-qr></div></div>
     </div>
 
     <div class="vignette"></div>
@@ -228,7 +186,7 @@
       <div class="ga">&#129413;</div>
       <div class="gl">DIGIY<b>LYFE</b></div>
       <div class="gbtn">&#9654; LANCER LE CLIP</div>
-      <div class="gs">son embarqu&eacute; &middot; 20 secondes</div>
+      <div class="gs">music.mp3 &middot; 20 secondes</div>
     </div>
 
   </div>
@@ -236,11 +194,9 @@
   <div class="bar"><i id="progress"></i></div>
   <div class="ctrl">
     <button class="replay" id="replay">&#8635; Rejouer</button>
-    <button class="share" id="share">&#128279; Partager</button>
-    <span class="sound" id="sndlabel">&#127925; Musique g&eacute;n&eacute;r&eacute;e en direct</span>
+    <span class="sound" id="sndlabel">&#127925; Musique MP3 ou secours g&eacute;n&eacute;r&eacute</span>
   </div>
-  <div class="toast" id="toast">Lien copi&eacute; &#9989;</div>
-  <div class="hint">Screen-record le cadre 16:9 pour ton MP4 &middot; Pose <b>voix.mp3</b> &agrave; c&ocirc;t&eacute; du fichier &rarr; la voix off s'ajoute et la musique baisse toute seule</div>
+  <div class="hint">Screen-record le cadre 16:9 pour ton MP4 &middot; Pose <b>music.mp3</b> dans le même dossier que ce fichier HTML</div>
 
 <script>
 /* VRAI QR scannable -> https://digiylyfe.com (matrice 25x25, correction niveau M) */
@@ -304,11 +260,19 @@ function scheduleMusic(t0){
   master.gain.linearRampToValueAtTime(0.0001,t0+20.6);
 }
 
-var voice=null, voiceReady=false;
-(function loadVoice(){
-  voice=new Audio('voix.mp3'); voice.preload='auto';
-  voice.addEventListener('canplaythrough',function(){voiceReady=true;document.getElementById('sndlabel').innerHTML='&#127908; Voix off + musique (ducking actif)';},{once:true});
-  voice.addEventListener('error',function(){voiceReady=false;});
+var musicFile=null, musicReady=false;
+(function loadMusicFile(){
+  musicFile = new Audio('./music.mp3');
+  musicFile.preload = 'auto';
+  musicFile.volume = 0.88;
+  musicFile.addEventListener('canplaythrough',function(){
+    musicReady=true;
+    document.getElementById('sndlabel').innerHTML='&#127925; music.mp3 charg&eacute;';
+  },{once:true});
+  musicFile.addEventListener('error',function(){
+    musicReady=false;
+    document.getElementById('sndlabel').innerHTML='&#9888; music.mp3 introuvable &middot; secours g&eacute;n&eacute;r&eacute;';
+  });
 })();
 
 var scenes=[
@@ -336,18 +300,27 @@ function clearAll(){
   flashTimers.forEach(clearTimeout); flashTimers=[];
   scenes.forEach(function(s){var n=document.getElementById(s.el);n.classList.remove('active');void n.offsetWidth;});
   startTime=null; progress.style.width='0%';
-  if(voice){try{voice.pause();voice.currentTime=0;}catch(e){}}
+  if(musicFile){try{musicFile.pause();musicFile.currentTime=0;}catch(e){}}
 }
 function play(){
   clearAll();
   if(ctx && ctx.state==='suspended') ctx.resume();
-  if(audioReady){
+  if(musicReady && musicFile){
+    try{
+      musicFile.pause();
+      musicFile.currentTime=0;
+      musicFile.volume=0.88;
+      var playPromise = musicFile.play();
+      if(playPromise && playPromise.catch){playPromise.catch(function(){
+        document.getElementById('sndlabel').innerHTML='&#9888; Clique encore pour lancer le son';
+      });}
+    }catch(e){}
+  } else if(audioReady){
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setValueAtTime(0.9,ctx.currentTime);
-    musicBus.gain.setValueAtTime(voiceReady?0.4:1.0, ctx.currentTime);
+    musicBus.gain.setValueAtTime(1.0, ctx.currentTime);
     scheduleMusic(ctx.currentTime+0.12);
   }
-  if(voiceReady){try{voice.currentTime=0;voice.play();}catch(e){}}
   [[14200,0.85],[14900,0.4],[15300,0.4],[15700,0.45],[17100,0.6]].forEach(function(p){
     flashTimers.push(setTimeout(function(){doFlash(p[1]);},p[0]));
   });
@@ -360,35 +333,9 @@ document.getElementById('gate').addEventListener('click',function(){
   play();
 });
 document.getElementById('replay').addEventListener('click',function(){ if(!audioReady) initAudio(); play(); });
-
-/* ============ PARTAGE ============ */
-// URL à partager. Si tu héberges le clip, mets ici son adresse publique
-// (ex: "https://digiylyfe.com/clip" ou ton lien GitHub Pages).
-var SHARE_URL = "https://digiylyfe.com";
-// Si le clip est déjà ouvert depuis une vraie page web, on partage cette page.
-if (location.protocol.indexOf('http') === 0) SHARE_URL = location.href;
-
-var SHARE_TEXT = "DIGIYLYFE — De Saly à Sarlat, le business local reprend la main. 0% commission, paiement direct au pro. 🦅";
-
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.innerHTML=msg; t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},2200);
-}
-document.getElementById('share').addEventListener('click',function(){
-  if(navigator.share){
-    navigator.share({title:'DIGIYLYFE', text:SHARE_TEXT, url:SHARE_URL})
-      .catch(function(){});
-  } else if(navigator.clipboard){
-    navigator.clipboard.writeText(SHARE_TEXT+' '+SHARE_URL)
-      .then(function(){showToast('Lien copi&eacute; &#9989;');})
-      .catch(function(){window.open('https://wa.me/?text='+encodeURIComponent(SHARE_TEXT+' '+SHARE_URL),'_blank');});
-  } else {
-    window.open('https://wa.me/?text='+encodeURIComponent(SHARE_TEXT+' '+SHARE_URL),'_blank');
-  }
-});
 </script>
 </body>
 </html>
+
 
 
