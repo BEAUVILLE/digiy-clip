@@ -73,11 +73,13 @@
   #s4 .chip .ic{font-size:clamp(18px,3vw,26px)}
   #s4 .chip .nm{font-weight:800;color:#fff;font-size:clamp(13px,2.2vw,20px);letter-spacing:.02em}
   #s4 .chip .nm b{color:var(--or)}
-  .active#s4 .chip:nth-child(1){animation:popIn .4s .4s both}
-  .active#s4 .chip:nth-child(2){animation:popIn .4s .9s both}
-  .active#s4 .chip:nth-child(3){animation:popIn .4s 1.4s both}
-  .active#s4 .chip:nth-child(4){animation:popIn .4s 1.9s both}
-  .active#s4 .chip:nth-child(5){animation:popIn .4s 2.4s both}
+  .active#s4 .chip:nth-child(1){animation:popIn .35s .25s both}
+  .active#s4 .chip:nth-child(2){animation:popIn .35s .60s both}
+  .active#s4 .chip:nth-child(3){animation:popIn .35s .95s both}
+  .active#s4 .chip:nth-child(4){animation:popIn .35s 1.30s both}
+  .active#s4 .chip:nth-child(5){animation:popIn .35s 1.65s both}
+  .active#s4 .chip:nth-child(6){animation:popIn .35s 2.00s both}
+  .active#s4 .chip:nth-child(7){animation:popIn .35s 2.35s both}
 
   #s5{background:var(--noir)}
   #s5 .zero{font-size:clamp(34px,8vw,84px);font-weight:900;color:var(--or);letter-spacing:.02em;opacity:0;text-shadow:0 0 30px rgba(196,154,34,.4)}
@@ -159,6 +161,8 @@
         <div class="chip"><span class="ic">&#128722;</span><span class="nm">DIGIY <b>MARKET</b></span></div>
         <div class="chip"><span class="ic">&#128188;</span><span class="nm">DIGIY <b>JOBS</b></span></div>
         <div class="chip"><span class="ic">&#128197;</span><span class="nm">DIGIY <b>RESA</b></span></div>
+        <div class="chip"><span class="ic">&#128176;</span><span class="nm">DIGIY <b>PAY</b></span></div>
+        <div class="chip"><span class="ic">&#127759;</span><span class="nm">DIGIY <b>EXPLORE</b></span></div>
       </div>
     </div>
 
@@ -195,15 +199,18 @@
   <div class="hint">Screen-record le cadre 16:9 pour ton MP4 &middot; Pose <b>voix.mp3</b> &agrave; c&ocirc;t&eacute; du fichier &rarr; la voix off s'ajoute et la musique baisse toute seule</div>
 
 <script>
+/* VRAI QR scannable -> https://digiylyfe.com (matrice 25x25, correction niveau M) */
+var QR_URL = "https://digiylyfe.com";
+var QR_MATRIX = ["1111111001001010101111111","1000001010110110101000001","1011101010101001101011101","1011101010101100101011101","1011101001010000101011101","1000001001001100001000001","1111111010101010101111111","0000000011010011100000000","1000001010100111011001110","1000110101110111000111110","0111111000100111100001011","1111010011111010011101001","0000011001101000001100001","1110000011100101100100010","1011001011111011011111011","1011100101110000010101101","1010011011010000111110100","0000000010001100100010000","1111111001010000101010001","1000001000001101100010011","1011101001001011111110111","1011101001000011111000011","1011101001011001100001101","1000001000010011100110001","1111111011000110101001001"];
 function drawQR(el){
-  var N=21, cell=100/N, r='<svg class="qrsvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#fff"/>';
-  var seed=7, rnd=function(){seed=(seed*9301+49297)%233280;return seed/233280;};
-  for(var y=0;y<N;y++)for(var x=0;x<N;x++){
-    var finder=(x<7&&y<7)||(x>=N-7&&y<7)||(x<7&&y>=N-7), on=false;
-    if(finder){on=(x%6===0||y%6===0)||((x>1&&x<5&&y>1&&y<5)||(x>N-6&&x<N-2&&y>1&&y<5)||(x>1&&x<5&&y>N-6&&y<N-2));}
-    else on=rnd()>.55;
-    if(on) r+='<rect x="'+(x*cell).toFixed(2)+'" y="'+(y*cell).toFixed(2)+'" width="'+cell.toFixed(2)+'" height="'+cell.toFixed(2)+'" fill="#1A5C38"/>';
-  }
+  var N=QR_MATRIX.length, q=4, T=N+q*2, cell=100/T;
+  var r='<svg class="qrsvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#fff"/>';
+  for(var y=0;y<N;y++){var row=QR_MATRIX[y];for(var x=0;x<N;x++){
+    if(row.charAt(x)==='1'){
+      var px=((x+q)*cell), py=((y+q)*cell);
+      r+='<rect x="'+px.toFixed(3)+'" y="'+py.toFixed(3)+'" width="'+(cell+0.05).toFixed(3)+'" height="'+(cell+0.05).toFixed(3)+'" fill="#1A5C38"/>';
+    }
+  }}
   el.innerHTML=r+'</svg>';
 }
 [].forEach.call(document.querySelectorAll('[data-qr]'),drawQR);
@@ -312,3 +319,4 @@ document.getElementById('replay').addEventListener('click',function(){ if(!audio
 </script>
 </body>
 </html>
+
