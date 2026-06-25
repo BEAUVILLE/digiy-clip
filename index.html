@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DIGIYLYFE · Clip terrain (20s) — son embarqué</title>
+<meta name="description" content="De Saly à Sarlat, le business local reprend la main. 0% commission, paiement direct au pro, contact direct.">
+<!-- Aperçu riche au partage (WhatsApp, Facebook, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="DIGIYLYFE — Le poumon numérique du terrain">
+<meta property="og:description" content="De Saly à Sarlat, le business local reprend la main. 0% commission, paiement direct au pro.">
+<meta property="og:url" content="https://digiylyfe.com">
+<meta property="og:image" content="https://digiylyfe.com/qr-digiylyfe.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DIGIYLYFE — Le poumon numérique du terrain">
+<meta name="twitter:description" content="De Saly à Sarlat, le business local reprend la main.">
+<meta name="twitter:image" content="https://digiylyfe.com/qr-digiylyfe.png">
 <style>
   :root{
     --vert:#1A5C38; --vert-clair:#13824d;
@@ -128,6 +139,11 @@
   button{cursor:pointer;border:none;font-weight:700;font-family:inherit;border-radius:9px;padding:10px 20px;font-size:14px;transition:transform .12s}
   button:active{transform:scale(.95)}
   .replay{background:var(--or);color:#1a1a1a}
+  .share{background:var(--vert-clair);color:#fff}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--vert);color:#fff;
+    font-weight:700;font-size:14px;padding:12px 22px;border-radius:50px;box-shadow:0 10px 30px rgba(0,0,0,.4);
+    opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;z-index:200}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .hint{color:#7d8a82;font-size:12px;text-align:center}
   .sound{color:var(--or-clair);font-size:12px;display:flex;align-items:center;gap:5px}
 
@@ -220,8 +236,10 @@
   <div class="bar"><i id="progress"></i></div>
   <div class="ctrl">
     <button class="replay" id="replay">&#8635; Rejouer</button>
+    <button class="share" id="share">&#128279; Partager</button>
     <span class="sound" id="sndlabel">&#127925; Musique g&eacute;n&eacute;r&eacute;e en direct</span>
   </div>
+  <div class="toast" id="toast">Lien copi&eacute; &#9989;</div>
   <div class="hint">Screen-record le cadre 16:9 pour ton MP4 &middot; Pose <b>voix.mp3</b> &agrave; c&ocirc;t&eacute; du fichier &rarr; la voix off s'ajoute et la musique baisse toute seule</div>
 
 <script>
@@ -342,7 +360,35 @@ document.getElementById('gate').addEventListener('click',function(){
   play();
 });
 document.getElementById('replay').addEventListener('click',function(){ if(!audioReady) initAudio(); play(); });
+
+/* ============ PARTAGE ============ */
+// URL à partager. Si tu héberges le clip, mets ici son adresse publique
+// (ex: "https://digiylyfe.com/clip" ou ton lien GitHub Pages).
+var SHARE_URL = "https://digiylyfe.com";
+// Si le clip est déjà ouvert depuis une vraie page web, on partage cette page.
+if (location.protocol.indexOf('http') === 0) SHARE_URL = location.href;
+
+var SHARE_TEXT = "DIGIYLYFE — De Saly à Sarlat, le business local reprend la main. 0% commission, paiement direct au pro. 🦅";
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.innerHTML=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2200);
+}
+document.getElementById('share').addEventListener('click',function(){
+  if(navigator.share){
+    navigator.share({title:'DIGIYLYFE', text:SHARE_TEXT, url:SHARE_URL})
+      .catch(function(){});
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(SHARE_TEXT+' '+SHARE_URL)
+      .then(function(){showToast('Lien copi&eacute; &#9989;');})
+      .catch(function(){window.open('https://wa.me/?text='+encodeURIComponent(SHARE_TEXT+' '+SHARE_URL),'_blank');});
+  } else {
+    window.open('https://wa.me/?text='+encodeURIComponent(SHARE_TEXT+' '+SHARE_URL),'_blank');
+  }
+});
 </script>
 </body>
 </html>
+
 
