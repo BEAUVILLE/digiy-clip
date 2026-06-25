@@ -3,22 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIGIYLYFE · Clip terrain (20s)</title>
+<title>DIGIYLYFE · Clip terrain (20s) — son embarqué</title>
 <style>
   :root{
-    --vert:#1A5C38;
-    --vert-clair:#13824d;
-    --or:#C49A22;
-    --or-clair:#E8C158;
-    --noir:#0B0E0C;
-    --blanc:#FFFFFF;
-    --t: 20s; /* durée totale */
+    --vert:#1A5C38; --vert-clair:#13824d;
+    --or:#C49A22; --or-clair:#E8C158;
+    --noir:#0B0E0C; --blanc:#FFFFFF;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;background:#000;font-family:'Segoe UI',Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
   body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:18px}
 
-  /* SCÈNE 16:9 */
   .stage{
     position:relative;width:100%;max-width:960px;aspect-ratio:16/9;
     background:var(--noir);border-radius:14px;overflow:hidden;
@@ -31,15 +26,14 @@
   }
   .scene.active{opacity:1}
 
-  /* ===== SCÈNE 1 — TERRAIN ===== */
+  .vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 140px 30px rgba(0,0,0,.55);z-index:50}
+  .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:60;transition:opacity .08s ease}
+
   #s1{background:radial-gradient(circle at 50% 40%, #15291d 0%, var(--noir) 70%)}
   #s1 .grand{font-size:clamp(28px,6vw,64px);font-weight:800;letter-spacing:.04em;color:var(--blanc)}
   #s1 .grand b{color:var(--or)}
   #s1 .mots{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:22px}
-  #s1 .mots span{
-    font-size:clamp(13px,2.2vw,20px);color:#9fc4ad;font-weight:600;opacity:0;
-    text-transform:uppercase;letter-spacing:.12em;
-  }
+  #s1 .mots span{font-size:clamp(13px,2.2vw,20px);color:#9fc4ad;font-weight:600;opacity:0;text-transform:uppercase;letter-spacing:.12em}
   .active#s1 .grand{animation:rise .9s .1s both}
   .active#s1 .mots span{animation:fadeUp .6s both}
   .active#s1 .mots span:nth-child(1){animation-delay:.5s}
@@ -49,51 +43,33 @@
   .active#s1 .mots span:nth-child(5){animation-delay:1.3s}
   .active#s1 .mots span:nth-child(6){animation-delay:1.5s}
 
-  /* ===== SCÈNE 2 — LE PROBLÈME ===== */
   #s2{background:linear-gradient(160deg,#1a1411 0%, var(--noir) 80%);filter:saturate(.8)}
   #s2 .ligne{font-size:clamp(22px,4.5vw,46px);font-weight:800;color:var(--blanc);opacity:0;line-height:1.25}
   #s2 .ligne.casse{color:#e0573d;position:relative}
   .active#s2 .ligne:nth-child(1){animation:fadeUp .5s .2s both}
   .active#s2 .ligne:nth-child(2){animation:fadeUp .5s .9s both}
   .active#s2 .ligne:nth-child(3){animation:fadeUp .5s 1.6s both}
-  .active#s2 .casse::after{
-    content:"";position:absolute;left:0;right:0;top:52%;height:3px;background:#e0573d;
-    transform:scaleX(0);transform-origin:left;animation:crack .5s 2.1s both;
-  }
+  .active#s2 .casse::after{content:"";position:absolute;left:0;right:0;top:52%;height:3px;background:#e0573d;transform:scaleX(0);transform-origin:left;animation:crack .5s 2.1s both}
 
-  /* ===== SCÈNE 3 — QR / FICHE ===== */
   #s3{background:radial-gradient(circle at 30% 50%, #163a27 0%, var(--noir) 75%);flex-direction:row;gap:6%}
   #s3 .qrwrap{position:relative;flex:0 0 auto}
   #s3 .qr{width:clamp(110px,20vw,180px);height:clamp(110px,20vw,180px);background:var(--blanc);border-radius:12px;padding:10px;opacity:0}
   .active#s3 .qr{animation:pop .5s .2s both}
-  #s3 .beam{
-    position:absolute;left:6px;right:6px;height:4px;background:var(--or);border-radius:4px;
-    box-shadow:0 0 18px 4px var(--or-clair);opacity:0;top:10px;
-  }
+  #s3 .beam{position:absolute;left:6px;right:6px;height:4px;background:var(--or);border-radius:4px;box-shadow:0 0 18px 4px var(--or-clair);opacity:0;top:10px}
   .active#s3 .beam{animation:scan 1.4s .6s ease-in-out both}
-  #s3 .fiche{
-    background:#fff;border-radius:14px;padding:18px 22px;text-align:left;min-width:200px;max-width:46%;
-    opacity:0;box-shadow:0 16px 40px rgba(0,0,0,.4);border-top:5px solid var(--or);
-  }
+  #s3 .fiche{background:#fff;border-radius:14px;padding:18px 22px;text-align:left;min-width:200px;max-width:46%;opacity:0;box-shadow:0 16px 40px rgba(0,0,0,.4);border-top:5px solid var(--or)}
   .active#s3 .fiche{animation:slideIn .6s 1.6s both}
   #s3 .fiche .nom{font-size:clamp(16px,2.6vw,24px);font-weight:800;color:var(--vert)}
   #s3 .fiche .metier{font-size:clamp(12px,1.8vw,16px);color:#666;margin:4px 0 12px}
-  #s3 .fiche .cta{display:inline-block;background:var(--vert);color:#fff;font-weight:700;
-    font-size:clamp(11px,1.6vw,14px);padding:8px 16px;border-radius:8px}
-  #s3 .legende{position:absolute;bottom:7%;left:0;right:0;color:#bfe0cd;font-weight:600;
-    font-size:clamp(12px,2vw,18px);letter-spacing:.06em;opacity:0}
+  #s3 .fiche .cta{display:inline-block;background:var(--vert);color:#fff;font-weight:700;font-size:clamp(11px,1.6vw,14px);padding:8px 16px;border-radius:8px}
+  #s3 .legende{position:absolute;bottom:7%;left:0;right:0;color:#bfe0cd;font-weight:600;font-size:clamp(12px,2vw,18px);letter-spacing:.06em;opacity:0}
   .active#s3 .legende{animation:fadeUp .5s 2.2s both}
 
-  /* ===== SCÈNE 4 — MODULES ===== */
   #s4{background:linear-gradient(160deg,#13301f 0%, var(--noir) 90%)}
-  #s4 .titre{color:#bfe0cd;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-    font-size:clamp(11px,1.8vw,15px);margin-bottom:22px;opacity:0}
+  #s4 .titre{color:#bfe0cd;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:clamp(11px,1.8vw,15px);margin-bottom:22px;opacity:0}
   .active#s4 .titre{animation:fadeUp .4s .1s both}
   #s4 .chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:90%}
-  #s4 .chip{
-    display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.06);
-    border:1.5px solid var(--vert-clair);border-radius:40px;padding:10px 18px;opacity:0;
-  }
+  #s4 .chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.06);border:1.5px solid var(--vert-clair);border-radius:40px;padding:10px 18px;opacity:0}
   #s4 .chip .ic{font-size:clamp(18px,3vw,26px)}
   #s4 .chip .nm{font-weight:800;color:#fff;font-size:clamp(13px,2.2vw,20px);letter-spacing:.02em}
   #s4 .chip .nm b{color:var(--or)}
@@ -103,9 +79,8 @@
   .active#s4 .chip:nth-child(4){animation:popIn .4s 1.9s both}
   .active#s4 .chip:nth-child(5){animation:popIn .4s 2.4s both}
 
-  /* ===== SCÈNE 5 — DOCTRINE ===== */
   #s5{background:var(--noir)}
-  #s5 .zero{font-size:clamp(34px,8vw,84px);font-weight:900;color:var(--or);letter-spacing:.02em;opacity:0}
+  #s5 .zero{font-size:clamp(34px,8vw,84px);font-weight:900;color:var(--or);letter-spacing:.02em;opacity:0;text-shadow:0 0 30px rgba(196,154,34,.4)}
   #s5 .lignes{margin-top:14px;display:flex;flex-direction:column;gap:8px}
   #s5 .lignes div{font-size:clamp(15px,2.8vw,26px);font-weight:800;color:#fff;letter-spacing:.05em;opacity:0}
   #s5 .lignes .vert{color:#5fd897}
@@ -114,7 +89,6 @@
   .active#s5 .lignes div:nth-child(2){animation:fadeUp .4s 1.3s both}
   .active#s5 .lignes div:nth-child(3){animation:fadeUp .4s 1.7s both}
 
-  /* ===== SCÈNE 6 — SIGNATURE ===== */
   #s6{background:radial-gradient(circle at 50% 38%, var(--vert-clair) 0%, var(--vert) 55%, #0f3a25 100%)}
   #s6 .aigle{font-size:clamp(38px,7vw,68px);opacity:0}
   .active#s6 .aigle{animation:pop .5s .1s both}
@@ -127,20 +101,25 @@
   #s6 .qrmini{width:clamp(70px,12vw,104px);height:clamp(70px,12vw,104px);background:#fff;border-radius:10px;padding:7px;margin-top:18px;opacity:0}
   .active#s6 .qrmini{animation:pop .5s 1.5s both}
 
-  /* QR motif (décoratif — remplacer par le vrai QR dans le montage final) */
   .qrsvg{width:100%;height:100%;display:block}
 
-  /* PROGRESS + CONTRÔLES (hors cadre 16:9 → screen-record propre) */
+  .gate{position:absolute;inset:0;z-index:80;background:radial-gradient(circle at 50% 45%, #14402a 0%, #06120c 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:pointer;transition:opacity .5s ease}
+  .gate.hidden{opacity:0;pointer-events:none}
+  .gate .ga{font-size:clamp(40px,8vw,72px)}
+  .gate .gl{font-size:clamp(22px,4vw,40px);font-weight:900;color:#fff;letter-spacing:.05em}
+  .gate .gl b{color:var(--or)}
+  .gate .gbtn{margin-top:8px;background:var(--or);color:#1a1a1a;font-weight:800;font-size:clamp(14px,2.2vw,18px);padding:14px 30px;border-radius:50px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(196,154,34,.4);animation:pulse 1.8s ease-in-out infinite}
+  .gate .gs{color:#8fc7a8;font-size:clamp(11px,1.8vw,14px);letter-spacing:.08em}
+
   .bar{width:100%;max-width:960px;height:5px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden}
   .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vert-clair),var(--or));border-radius:4px}
-  .ctrl{display:flex;gap:10px;align-items:center}
+  .ctrl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
   button{cursor:pointer;border:none;font-weight:700;font-family:inherit;border-radius:9px;padding:10px 20px;font-size:14px;transition:transform .12s}
   button:active{transform:scale(.95)}
   .replay{background:var(--or);color:#1a1a1a}
-  .play{background:var(--vert-clair);color:#fff}
-  .hint{color:#7d8a82;font-size:12px}
+  .hint{color:#7d8a82;font-size:12px;text-align:center}
+  .sound{color:var(--or-clair);font-size:12px;display:flex;align-items:center;gap:5px}
 
-  /* keyframes */
   @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   @keyframes pop{0%{opacity:0;transform:scale(.7)}70%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
@@ -148,150 +127,188 @@
   @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
   @keyframes crack{to{transform:scaleX(1)}}
   @keyframes scan{0%{opacity:1;top:10px}100%{opacity:1;top:calc(100% - 14px)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 </style>
 </head>
 <body>
 
   <div class="stage" id="stage">
 
-    <!-- SCÈNE 1 : 0–3s -->
     <div class="scene" id="s1">
-      <div class="grand">De <b>Saly</b> à <b>Sarlat</b></div>
-      <div class="mots">
-        <span>Marché</span><span>Chauffeur</span><span>Boutique</span>
-        <span>Artisan</span><span>Logement</span><span>Restaurant</span>
-      </div>
+      <div class="grand">De <b>Saly</b> &agrave; <b>Sarlat</b></div>
+      <div class="mots"><span>March&eacute;</span><span>Chauffeur</span><span>Boutique</span><span>Artisan</span><span>Logement</span><span>Restaurant</span></div>
     </div>
 
-    <!-- SCÈNE 2 : 3–6s -->
     <div class="scene" id="s2">
       <div class="ligne">Le client cherche.</div>
       <div class="ligne">Le pro existe.</div>
-      <div class="ligne casse">Mais le lien est cassé.</div>
+      <div class="ligne casse">Mais le lien est cass&eacute;.</div>
     </div>
 
-    <!-- SCÈNE 3 : 6–10s -->
     <div class="scene" id="s3">
-      <div class="qrwrap">
-        <div class="qr"><div class="qrsvg" data-qr></div></div>
-        <div class="beam"></div>
-      </div>
-      <div class="fiche">
-        <div class="nom">Ndiaye Auto</div>
-        <div class="metier">DIGIY DRIVER · Saly</div>
-        <div class="cta">📞 Contact direct</div>
-      </div>
-      <div class="legende">Une fiche claire · Un QR · Un contact direct</div>
+      <div class="qrwrap"><div class="qr"><div class="qrsvg" data-qr></div></div><div class="beam"></div></div>
+      <div class="fiche"><div class="nom">Ndiaye Auto</div><div class="metier">DIGIY DRIVER &middot; Saly</div><div class="cta">&#128222; Contact direct</div></div>
+      <div class="legende">Une fiche claire &middot; Un QR &middot; Un contact direct</div>
     </div>
 
-    <!-- SCÈNE 4 : 10–14s -->
     <div class="scene" id="s4">
-      <div class="titre">Chaque métier garde son bras numérique</div>
+      <div class="titre">Chaque m&eacute;tier garde son bras num&eacute;rique</div>
       <div class="chips">
-        <div class="chip"><span class="ic">🔑</span><span class="nm">DIGIY <b>LOC</b></span></div>
-        <div class="chip"><span class="ic">🚗</span><span class="nm">DIGIY <b>DRIVER</b></span></div>
-        <div class="chip"><span class="ic">🛒</span><span class="nm">DIGIY <b>MARKET</b></span></div>
-        <div class="chip"><span class="ic">💼</span><span class="nm">DIGIY <b>JOBS</b></span></div>
-        <div class="chip"><span class="ic">📅</span><span class="nm">DIGIY <b>RESA</b></span></div>
+        <div class="chip"><span class="ic">&#128273;</span><span class="nm">DIGIY <b>LOC</b></span></div>
+        <div class="chip"><span class="ic">&#128663;</span><span class="nm">DIGIY <b>DRIVER</b></span></div>
+        <div class="chip"><span class="ic">&#128722;</span><span class="nm">DIGIY <b>MARKET</b></span></div>
+        <div class="chip"><span class="ic">&#128188;</span><span class="nm">DIGIY <b>JOBS</b></span></div>
+        <div class="chip"><span class="ic">&#128197;</span><span class="nm">DIGIY <b>RESA</b></span></div>
       </div>
     </div>
 
-    <!-- SCÈNE 5 : 14–17s -->
     <div class="scene" id="s5">
       <div class="zero">0% COMMISSION</div>
-      <div class="lignes">
-        <div>PAIEMENT DIRECT AU PRO</div>
-        <div>CONTACT DIRECT</div>
-        <div class="vert">LE TERRAIN GARDE LA MAIN</div>
-      </div>
+      <div class="lignes"><div>PAIEMENT DIRECT AU PRO</div><div>CONTACT DIRECT</div><div class="vert">LE TERRAIN GARDE LA MAIN</div></div>
     </div>
 
-    <!-- SCÈNE 6 : 17–20s -->
     <div class="scene" id="s6">
-      <div class="aigle">🦅</div>
+      <div class="aigle">&#129413;</div>
       <div class="logo">DIGIYLYFE</div>
-      <div class="slogan">Le poumon numérique du terrain</div>
-      <div class="sub">De Saly à Sarlat · Le business local reprend la main</div>
+      <div class="slogan">Le poumon num&eacute;rique du terrain</div>
+      <div class="sub">De Saly &agrave; Sarlat &middot; Le business local reprend la main</div>
       <div class="qrmini"><div class="qrsvg" data-qr></div></div>
+    </div>
+
+    <div class="vignette"></div>
+    <div class="flash" id="flash"></div>
+
+    <div class="gate" id="gate">
+      <div class="ga">&#129413;</div>
+      <div class="gl">DIGIY<b>LYFE</b></div>
+      <div class="gbtn">&#9654; LANCER LE CLIP</div>
+      <div class="gs">son embarqu&eacute; &middot; 20 secondes</div>
     </div>
 
   </div>
 
   <div class="bar"><i id="progress"></i></div>
   <div class="ctrl">
-    <button class="play" id="play" style="display:none">▶ Lancer</button>
-    <button class="replay" id="replay">↻ Rejouer</button>
-    <span class="hint">20 s · auto-play · screen-record ou GitHub Pages</span>
+    <button class="replay" id="replay">&#8635; Rejouer</button>
+    <span class="sound" id="sndlabel">&#127925; Musique g&eacute;n&eacute;r&eacute;e en direct</span>
   </div>
+  <div class="hint">Screen-record le cadre 16:9 pour ton MP4 &middot; Pose <b>voix.mp3</b> &agrave; c&ocirc;t&eacute; du fichier &rarr; la voix off s'ajoute et la musique baisse toute seule</div>
 
 <script>
-  // QR décoratif (motif) — à remplacer par le vrai QR PNG dans le montage final
-  function drawQR(el){
-    const N=21, cell=100/N;
-    let r='<svg class="qrsvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">';
-    r+='<rect width="100" height="100" fill="#fff"/>';
-    // pseudo-pattern déterministe
-    let seed=7;
-    const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};
-    for(let y=0;y<N;y++)for(let x=0;x<N;x++){
-      const finder=(x<7&&y<7)||(x>=N-7&&y<7)||(x<7&&y>=N-7);
-      let on=false;
-      if(finder){ on=(x%6===0||y%6===0)||((x>1&&x<5&&y>1&&y<5)||(x>N-6&&x<N-2&&y>1&&y<5)||(x>1&&x<5&&y>N-6&&y<N-2)); }
-      else on=rnd()>.55;
-      if(on) r+=`<rect x="${(x*cell).toFixed(2)}" y="${(y*cell).toFixed(2)}" width="${cell.toFixed(2)}" height="${cell.toFixed(2)}" fill="#1A5C38"/>`;
-    }
-    r+='</svg>';
-    el.innerHTML=r;
+function drawQR(el){
+  var N=21, cell=100/N, r='<svg class="qrsvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#fff"/>';
+  var seed=7, rnd=function(){seed=(seed*9301+49297)%233280;return seed/233280;};
+  for(var y=0;y<N;y++)for(var x=0;x<N;x++){
+    var finder=(x<7&&y<7)||(x>=N-7&&y<7)||(x<7&&y>=N-7), on=false;
+    if(finder){on=(x%6===0||y%6===0)||((x>1&&x<5&&y>1&&y<5)||(x>N-6&&x<N-2&&y>1&&y<5)||(x>1&&x<5&&y>N-6&&y<N-2));}
+    else on=rnd()>.55;
+    if(on) r+='<rect x="'+(x*cell).toFixed(2)+'" y="'+(y*cell).toFixed(2)+'" width="'+cell.toFixed(2)+'" height="'+cell.toFixed(2)+'" fill="#1A5C38"/>';
   }
-  document.querySelectorAll('[data-qr]').forEach(drawQR);
+  el.innerHTML=r+'</svg>';
+}
+[].forEach.call(document.querySelectorAll('[data-qr]'),drawQR);
 
-  // Timeline 20s
-  const scenes=[
-    {el:'s1',start:0,   end:3000},
-    {el:'s2',start:3000,end:6000},
-    {el:'s3',start:6000,end:10000},
-    {el:'s4',start:10000,end:14000},
-    {el:'s5',start:14000,end:17000},
-    {el:'s6',start:17000,end:20000},
-  ];
-  const TOTAL=20000;
-  const progress=document.getElementById('progress');
-  let startTime=null, raf=null;
+var AC = window.AudioContext || window.webkitAudioContext;
+var ctx, master, musicBus, noiseBuf, audioReady=false;
+var N = {F2:87.31,Ab2:103.83,Bb2:116.54,C3:130.81,Eb3:155.56,F3:174.61,Ab3:207.65,Bb3:233.08,C4:261.63,Eb4:311.13,F4:349.23,Ab4:415.30,C5:523.25,Eb5:622.25,Ab5:830.61};
 
-  function setScene(t){
-    scenes.forEach(s=>{
-      const node=document.getElementById(s.el);
-      const on = t>=s.start && t<s.end;
-      node.classList.toggle('active', on);
-    });
-  }
-  function tick(ts){
-    if(startTime===null) startTime=ts;
-    const t=ts-startTime;
-    setScene(t);
-    progress.style.width=Math.min(100,(t/TOTAL)*100)+'%';
-    if(t<TOTAL){ raf=requestAnimationFrame(tick); }
-    else { document.getElementById('s6').classList.add('active'); progress.style.width='100%'; }
-  }
-  function reset(){
-    cancelAnimationFrame(raf);
-    scenes.forEach(s=>{
-      const n=document.getElementById(s.el);
-      n.classList.remove('active');
-      // force reflow pour relancer les animations internes
-      void n.offsetWidth;
-    });
-    startTime=null;
-    progress.style.width='0%';
-  }
-  function playFromStart(){
-    reset();
-    requestAnimationFrame(t=>{ startTime=null; raf=requestAnimationFrame(tick); });
-  }
+function initAudio(){
+  ctx=new AC();
+  master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+  musicBus=ctx.createGain(); musicBus.gain.value=1; musicBus.connect(master);
+  noiseBuf=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);
+  var d=noiseBuf.getChannelData(0); for(var i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+  audioReady=true;
+}
+function kick(t,g){g=g||1;var o=ctx.createOscillator(),ga=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(125,t);o.frequency.exponentialRampToValueAtTime(45,t+0.12);ga.gain.setValueAtTime(0.0001,t);ga.gain.exponentialRampToValueAtTime(0.95*g,t+0.005);ga.gain.exponentialRampToValueAtTime(0.0001,t+0.32);o.connect(ga).connect(musicBus);o.start(t);o.stop(t+0.34);}
+function shaker(t,g){g=g||0.18;var s=ctx.createBufferSource();s.buffer=noiseBuf;var hp=ctx.createBiquadFilter();hp.type='highpass';hp.frequency.value=6500;var ga=ctx.createGain();ga.gain.setValueAtTime(0.0001,t);ga.gain.exponentialRampToValueAtTime(g,t+0.005);ga.gain.exponentialRampToValueAtTime(0.0001,t+0.07);s.connect(hp).connect(ga).connect(musicBus);s.start(t);s.stop(t+0.09);}
+function bass(t,f,dur,g){dur=dur||0.3;g=g||0.28;var o=ctx.createOscillator(),ga=ctx.createGain(),lp=ctx.createBiquadFilter();o.type='triangle';o.frequency.value=f;lp.type='lowpass';lp.frequency.value=420;ga.gain.setValueAtTime(0.0001,t);ga.gain.exponentialRampToValueAtTime(g,t+0.02);ga.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(lp).connect(ga).connect(musicBus);o.start(t);o.stop(t+dur+0.05);}
+function pad(t,freqs,dur,g){g=g||0.10;freqs.forEach(function(f){var o=ctx.createOscillator(),ga=ctx.createGain(),lp=ctx.createBiquadFilter();o.type='sawtooth';o.frequency.value=f;o.detune.value=(Math.random()*10-5);lp.type='lowpass';lp.frequency.value=1300;ga.gain.setValueAtTime(0.0001,t);ga.gain.linearRampToValueAtTime(g,t+0.5);ga.gain.setValueAtTime(g,t+dur-0.5);ga.gain.linearRampToValueAtTime(0.0001,t+dur);o.connect(lp).connect(ga).connect(musicBus);o.start(t);o.stop(t+dur+0.05);});}
+function stab(t,freqs,dur,g){dur=dur||0.6;g=g||0.22;freqs.forEach(function(f){var o=ctx.createOscillator(),ga=ctx.createGain(),lp=ctx.createBiquadFilter();o.type='sawtooth';o.frequency.value=f;lp.type='lowpass';lp.frequency.setValueAtTime(3200,t);lp.frequency.exponentialRampToValueAtTime(650,t+dur);ga.gain.setValueAtTime(0.0001,t);ga.gain.exponentialRampToValueAtTime(g,t+0.01);ga.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(lp).connect(ga).connect(musicBus);o.start(t);o.stop(t+dur+0.05);});}
+function bell(t,f,g){g=g||0.18;var o=ctx.createOscillator(),ga=ctx.createGain();o.type='sine';o.frequency.value=f;ga.gain.setValueAtTime(0.0001,t);ga.gain.exponentialRampToValueAtTime(g,t+0.005);ga.gain.exponentialRampToValueAtTime(0.0001,t+1.3);o.connect(ga).connect(musicBus);o.start(t);o.stop(t+1.4);}
+function riser(t,dur){var s=ctx.createBufferSource();s.buffer=noiseBuf;s.loop=true;var bp=ctx.createBiquadFilter();bp.type='bandpass';bp.Q.value=1.6;bp.frequency.setValueAtTime(300,t);bp.frequency.exponentialRampToValueAtTime(5000,t+dur);var ga=ctx.createGain();ga.gain.setValueAtTime(0.0001,t);ga.gain.linearRampToValueAtTime(0.16,t+dur);ga.gain.linearRampToValueAtTime(0.0001,t+dur+0.15);s.connect(bp).connect(ga).connect(musicBus);s.start(t);s.stop(t+dur+0.2);}
 
-  document.getElementById('replay').addEventListener('click', playFromStart);
-  // auto-play au chargement
-  window.addEventListener('load', ()=> setTimeout(playFromStart, 300));
+function scheduleMusic(t0){
+  var B=0.625, i, t;
+  pad(t0+0,[N.F3,N.Ab3,N.C4],5,0.09);
+  pad(t0+5,[N.F3,N.Ab3,N.C4,N.Eb4],8,0.10);
+  for(i=0;i*B<13.6;i++){t=t0+i*B; if(i%2===0) kick(t, i<8?0.7:0.95); shaker(t,0.18); shaker(t+B/2,0.12);}
+  var arp=[N.F2,N.C3,N.Ab2,N.C3,N.Bb2,N.Eb3,N.C3,N.Eb3];
+  for(i=0;;i++){t=t0+5+i*(B/2); if(t>t0+13.5) break; bass(t,arp[i%arp.length],B/2*0.9,0.26);}
+  shaker(t0+13.1,0.22);shaker(t0+13.25,0.28);shaker(t0+13.4,0.33);shaker(t0+13.5,0.4);kick(t0+13.5,1);
+  var d=t0+14;
+  pad(d,[N.F2,N.C3],3,0.10);
+  kick(d+0.2,1); stab(d+0.2,[N.F3,N.Ab3,N.C4,N.F4],0.95,0.30);
+  stab(d+0.9,[N.Ab3,N.Eb4],0.5,0.17);
+  stab(d+1.3,[N.Bb3,N.F4],0.5,0.17);
+  stab(d+1.7,[N.C4,N.Eb4,N.Ab4],0.55,0.19);
+  riser(d+2.0,0.95);
+  var s=t0+17;
+  kick(s,1);
+  pad(s,[N.Ab3,N.C4,N.Eb4,N.Ab4],3,0.13);
+  bass(s,N.Ab2,2.8,0.3);
+  bell(s+0.1,N.Ab5); bell(s+0.5,N.Eb5);
+  shaker(s+1.25,0.14);shaker(s+1.875,0.11);shaker(s+2.5,0.09);
+  master.gain.setValueAtTime(0.9,t0+19.2);
+  master.gain.linearRampToValueAtTime(0.0001,t0+20.6);
+}
+
+var voice=null, voiceReady=false;
+(function loadVoice(){
+  voice=new Audio('voix.mp3'); voice.preload='auto';
+  voice.addEventListener('canplaythrough',function(){voiceReady=true;document.getElementById('sndlabel').innerHTML='&#127908; Voix off + musique (ducking actif)';},{once:true});
+  voice.addEventListener('error',function(){voiceReady=false;});
+})();
+
+var scenes=[
+  {el:'s1',start:0,end:3000},{el:'s2',start:3000,end:6000},
+  {el:'s3',start:6000,end:10000},{el:'s4',start:10000,end:14000},
+  {el:'s5',start:14000,end:17000},{el:'s6',start:17000,end:20000}
+];
+var TOTAL=20000;
+var progress=document.getElementById('progress');
+var flash=document.getElementById('flash');
+var startTime=null, raf=null, flashTimers=[];
+
+function setScene(t){scenes.forEach(function(s){document.getElementById(s.el).classList.toggle('active', t>=s.start && t<s.end);});}
+function doFlash(st){flash.style.opacity=st;setTimeout(function(){flash.style.opacity=0;},90);}
+function tick(ts){
+  if(startTime===null) startTime=ts;
+  var t=ts-startTime;
+  setScene(t);
+  progress.style.width=Math.min(100,(t/TOTAL)*100)+'%';
+  if(t<TOTAL){ raf=requestAnimationFrame(tick); }
+  else { document.getElementById('s6').classList.add('active'); progress.style.width='100%'; }
+}
+function clearAll(){
+  cancelAnimationFrame(raf);
+  flashTimers.forEach(clearTimeout); flashTimers=[];
+  scenes.forEach(function(s){var n=document.getElementById(s.el);n.classList.remove('active');void n.offsetWidth;});
+  startTime=null; progress.style.width='0%';
+  if(voice){try{voice.pause();voice.currentTime=0;}catch(e){}}
+}
+function play(){
+  clearAll();
+  if(ctx && ctx.state==='suspended') ctx.resume();
+  if(audioReady){
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.setValueAtTime(0.9,ctx.currentTime);
+    musicBus.gain.setValueAtTime(voiceReady?0.4:1.0, ctx.currentTime);
+    scheduleMusic(ctx.currentTime+0.12);
+  }
+  if(voiceReady){try{voice.currentTime=0;voice.play();}catch(e){}}
+  [[14200,0.85],[14900,0.4],[15300,0.4],[15700,0.45],[17100,0.6]].forEach(function(p){
+    flashTimers.push(setTimeout(function(){doFlash(p[1]);},p[0]));
+  });
+  raf=requestAnimationFrame(tick);
+}
+
+document.getElementById('gate').addEventListener('click',function(){
+  if(!audioReady) initAudio();
+  document.getElementById('gate').classList.add('hidden');
+  play();
+});
+document.getElementById('replay').addEventListener('click',function(){ if(!audioReady) initAudio(); play(); });
 </script>
 </body>
 </html>
