@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>DIGIYLYFE — De Saly aux continents et pays du monde</title>
+<meta name="description" content="Le clip du terrain. Local dans l'âme. Mondial dans la visibilité.">
+
+<!-- Partage réseaux (WhatsApp, Facebook, X…).
+     ⚠️ Remplace https://TON-DOMAINE par le domaine réel de ce dépôt (ton CNAME). -->
+<meta property="og:type" content="video.other">
+<meta property="og:title" content="DIGIYLYFE — De Saly aux continents et pays du monde">
+<meta property="og:description" content="Local dans l'âme. Mondial dans la visibilité.">
+<meta property="og:url" content="https://TON-DOMAINE/">
+<meta property="og:video" content="https://TON-DOMAINE/digiylyfe_monde_60s_affiche_SON.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1080">
+<meta property="og:video:height" content="1920">
+<meta name="twitter:card" content="player">
+<meta name="theme-color" content="#0E3821">
+
+<style>
+  :root{
+    --terrain:        #1A5C38;
+    --terrain-deep:   #0E3821;
+    --terrain-night:  #08251A;
+    --or:             #C49A22;
+    --or-clair:       #E0BC5C;
+    --blanc:          #FAF8F2;
+    --blanc-doux:     rgba(250,248,242,.72);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{ height:100%; }
+
+  body{
+    font-family:"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(120% 80% at 50% 0%, var(--terrain) 0%, var(--terrain-deep) 55%, var(--terrain-night) 100%);
+    color:var(--blanc);
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:
+      calc(env(safe-area-inset-top) + 20px)
+      18px
+      calc(env(safe-area-inset-bottom) + 24px);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- Entête ---- */
+  .marque{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:18px;
+  }
+  .marque .nom{
+    font-weight:800;
+    letter-spacing:.14em;
+    font-size:15px;
+  }
+  .marque .aigle{ font-size:17px; line-height:1; }
+
+  /* ---- La porte (cadre vidéo) ---- */
+  .porte{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    aspect-ratio:9/16;
+    border-radius:20px;
+    overflow:hidden;
+    background:var(--terrain-night);
+    border:1px solid rgba(196,154,34,.45);
+    box-shadow:
+      0 24px 60px -20px rgba(0,0,0,.65),
+      inset 0 0 0 1px rgba(250,248,242,.04);
+  }
+  .porte video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  /* ---- Le battant qui se lève ---- */
+  .battant{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    text-align:center;
+    padding:26px;
+    cursor:pointer;
+    background:
+      linear-gradient(180deg, rgba(8,37,26,.55) 0%, rgba(8,37,26,.30) 45%, rgba(8,37,26,.75) 100%);
+    transition:transform .55s cubic-bezier(.5,0,.2,1), opacity .45s ease;
+    z-index:2;
+    border:0;
+    color:var(--blanc);
+    width:100%;
+  }
+  .battant.ouvert{
+    transform:translateY(-101%);
+    opacity:0;
+    pointer-events:none;
+  }
+  .bouton-lecture{
+    width:82px;
+    height:82px;
+    border-radius:50%;
+    background:var(--or);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 10px 28px -6px rgba(196,154,34,.7);
+    transition:transform .2s ease;
+  }
+  .battant:hover .bouton-lecture,
+  .battant:focus-visible .bouton-lecture{ transform:scale(1.06); }
+  .bouton-lecture svg{ width:34px; height:34px; margin-left:4px; fill:var(--terrain-night); }
+  .battant .invite{
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:.02em;
+  }
+  .battant .invite span{
+    display:block;
+    font-weight:400;
+    font-size:13.5px;
+    color:var(--blanc-doux);
+    margin-top:5px;
+    letter-spacing:.01em;
+  }
+
+  /* Halo pulsé sobre autour du bouton */
+  @keyframes halo{
+    0%   { box-shadow:0 0 0 0 rgba(196,154,34,.45); }
+    70%  { box-shadow:0 0 0 20px rgba(196,154,34,0); }
+    100% { box-shadow:0 0 0 0 rgba(196,154,34,0); }
+  }
+  .bouton-lecture{ animation:halo 2.4s ease-out infinite; }
+
+  /* ---- Titre sous la porte ---- */
+  .titre{
+    margin-top:24px;
+    text-align:center;
+    max-width:420px;
+  }
+  .titre h1{
+    font-size:20px;
+    font-weight:800;
+    line-height:1.25;
+    letter-spacing:.01em;
+  }
+  .titre .trait{
+    width:52px; height:3px; border-radius:2px;
+    background:var(--or);
+    margin:12px auto 12px;
+  }
+  .titre p{
+    font-size:14.5px;
+    color:var(--or-clair);
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  /* ---- Actions ---- */
+  .actions{
+    margin-top:22px;
+    width:100%;
+    max-width:420px;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+  }
+  .action{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    width:100%;
+    padding:15px 18px;
+    border-radius:13px;
+    font-size:15.5px;
+    font-weight:700;
+    letter-spacing:.02em;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+    font-family:inherit;
+  }
+  .action:active{ transform:translateY(1px); }
+  .action.entrer{
+    background:var(--or);
+    color:var(--terrain-night);
+  }
+  .action.entrer:hover{ background:var(--or-clair); }
+  .action.partager{
+    background:transparent;
+    color:var(--blanc);
+    border-color:rgba(250,248,242,.28);
+  }
+  .action.partager:hover{ border-color:var(--or); color:var(--or-clair); }
+  .action svg{ width:19px; height:19px; }
+  .action.entrer svg{ fill:var(--terrain-night); }
+  .action.partager svg{ fill:currentColor; }
+
+  /* petit retour après copie du lien */
+  .note{
+    height:18px;
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--or-clair);
+    opacity:0;
+    transition:opacity .25s ease;
+    letter-spacing:.02em;
+  }
+  .note.visible{ opacity:1; }
+
+  /* ---- Pied ---- */
+  footer{
+    margin-top:auto;
+    padding-top:26px;
+    text-align:center;
+  }
+  footer .signature{
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  footer .devise{
+    margin-top:6px;
+    font-size:12px;
+    color:var(--blanc-doux);
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .battant{ transition:opacity .3s ease; }
+    .battant.ouvert{ transform:none; }
+    .bouton-lecture{ animation:none; }
+    .action, .bouton-lecture{ transition:none; }
+  }
+
+  @media (min-width:640px){
+    .porte{ max-width:380px; }
+    .titre h1{ font-size:22px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="marque">
+    <span class="nom">DIGIYLYFE</span>
+    <span class="aigle">🦅♾️</span>
+  </div>
+
+  <div class="porte">
+    <video id="clip"
+           playsinline
+           preload="metadata"
+           loop
+           poster=""
+           src="./digiylyfe_monde_60s_affiche_SON.mp4"></video>
+
+    <button class="battant" id="battant" aria-label="Lancer le clip">
+      <span class="bouton-lecture">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      </span>
+      <span class="invite">
+        Ouvrir la porte
+        <span>Tape pour lancer le clip, avec le son</span>
+      </span>
+    </button>
+  </div>
+
+  <div class="titre">
+    <h1>De Saly aux continents<br>et pays du monde</h1>
+    <div class="trait"></div>
+    <p>Local dans l'âme. Mondial dans la visibilité.</p>
+  </div>
+
+  <div class="actions">
+    <a class="action entrer" href="https://digiylyfe.com" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4z"/></svg>
+      Entrer sur DIGIYLYFE
+    </a>
+    <button class="action partager" id="partager">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+      Partager le clip
+    </button>
+  </div>
+  <div class="note" id="note">Lien copié — partage-le sur le terrain.</div>
+
+  <footer>
+    <div class="signature">Le terrain garde la main. 🦅♾️</div>
+    <div class="devise">Pierre par pierre</div>
+  </footer>
+
+<script>
+  (function(){
+    var video   = document.getElementById('clip');
+    var battant = document.getElementById('battant');
+
+    // Ouvrir la porte : lancer le clip avec le son
+    battant.addEventListener('click', function(){
+      video.muted = false;
+      video.currentTime = 0;
+      var p = video.play();
+      if (p && p.catch){
+        p.catch(function(){
+          // Si le navigateur refuse le son d'emblée, on lance en muet
+          video.muted = true;
+          video.play();
+        });
+      }
+      battant.classList.add('ouvert');
+    });
+
+    // Partage
+    var partager = document.getElementById('partager');
+    var note     = document.getElementById('note');
+    var url      = window.location.href;
+
+    function flashNote(txt){
+      note.textContent = txt;
+      note.classList.add('visible');
+      setTimeout(function(){ note.classList.remove('visible'); }, 2600);
+    }
+
+    partager.addEventListener('click', function(){
+      var data = {
+        title: 'DIGIYLYFE',
+        text : 'De Saly aux continents et pays du monde. Local dans l\'âme, mondial dans la visibilité.',
+        url  : url
+      };
+      if (navigator.share){
+        navigator.share(data).catch(function(){});
+      } else if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(function(){
+          flashNote('Lien copié — partage-le sur le terrain.');
+        }).catch(function(){
+          flashNote(url);
+        });
+      } else {
+        flashNote(url);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
